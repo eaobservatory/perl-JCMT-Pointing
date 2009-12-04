@@ -64,6 +64,46 @@ sub new {
 
 =over
 
+=item B<append_fit_to_datafile>
+
+Append pointing fits to the supplied NDF file.
+
+  $pnt->append_fit_to_datafile( $ndf, @fits );
+
+@fits is an array of JCMT::Pointing::Fit object.
+
+If there are already fits stored in the NDF, the supplied fits will be
+appended to that list of fits, unless fits with the same label exist,
+in which case the old fits will be overwritten.
+
+=cut
+
+sub append_fit_to_datafile {
+  my $self = shift;
+  my $file = shift;
+  croak "Must define a data file name" unless defined $file;
+  my @fits = @_;
+  croak "Must supply at least one fit" unless @fits;
+
+  # First, read the pre-existing fits.
+  my @oldfits = $self->read_fit_from_datafile( $file );
+
+  # Set up a hash of labels in the supplied fits.
+  my %seen = ();
+  map { $seen{$_->label}++ } @fits;
+
+  # For each old fit whose label has not been seen, append it to the
+  # @fits array.
+  foreach my $oldfit ( @oldfits ) {
+    next if $seen{$oldfit->label};
+    push @fits, $oldfit;
+  }
+
+  # Write these fits to the datafile.
+  $self->write_fit_to_datafile( $file, @fits );
+
+}
+
 =item B<write_fit_to_datafile>
 
 Write pointing fits to the supplied NDF file.
