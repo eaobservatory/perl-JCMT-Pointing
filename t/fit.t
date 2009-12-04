@@ -41,6 +41,6 @@ is( $offa0->yoffset, $offb0->yoffset, "Check Y offset");
 
 
 # Write a single one
-$pnt->write_fit_to_datafile( $testfile, @fit[0] );
+$pnt->write_fit_to_datafile( $testfile, $fit[0] );
 @fits = $pnt->read_fit_from_datafile( $testfile );
 is( scalar(@fits), 1, "Count number of fits second time around");
