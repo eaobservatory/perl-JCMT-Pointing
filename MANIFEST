@@ -1,0 +1,6 @@
+Build.PL
+lib/JCMT/Pointing.pm
+lib/JCMT/Pointing/Fit.pm
+MANIFEST			This list of files
+t/fit.t
+t/pnttest.sdf
