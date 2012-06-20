@@ -2,3 +2,4 @@ Build
 blib
 pm_to_blib
 _build
+MYMETA.*
