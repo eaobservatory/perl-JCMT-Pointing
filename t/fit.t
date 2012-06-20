@@ -2,6 +2,7 @@
 
 use Test::More tests => 17;
 use File::Spec;
+use File::Copy;
 
 use_ok( "JCMT::Pointing::Fit" );
 use_ok( "JCMT::Pointing" );
@@ -23,7 +24,15 @@ isa_ok( $fit[1]->offset, "Astro::Coords::Offset" );
 
 my $pnt = JCMT::Pointing->new();
 
-my $testfile = File::Spec->catfile( "t", "pnttest.sdf" );
+# We are writing to a test file so we copy the reference
+# to avoid continually updating the original file
+
+
+my $infile = File::Spec->catfile( "t", "pnttest.sdf" );
+my $testfile = File::Spec->catfile( "t", "testfile.sdf" );
+copy( $infile, $testfile ) or die "Copy of test file failed: $!";
+END { unlink $testfile; }
+
 $pnt->write_fit_to_datafile( $testfile, @fit );
 
 
