@@ -176,7 +176,7 @@ sub write_fit_to_datafile {
     err_annul( $status );
     croak "$errstr";
   }
-  err_annul($status);
+  err_end($status);
 
 }
 
@@ -265,7 +265,7 @@ sub read_fit_from_datafile {
     err_annul( $status );
     croak "$errstr";
   }
-  err_annul($status);
+  err_end($status);
 
   return @fits;
 }
